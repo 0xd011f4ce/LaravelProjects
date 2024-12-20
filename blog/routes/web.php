@@ -2,10 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return "<h1>Home</h1><a href='/about'>About</a>";
-});
+use App\Http\Controllers\ExampleController;
 
-Route::get ("/about", function () {
-    return "<h1>About us</h1><a href='/'>Home</a>";
-});
+Route::get('/', [ ExampleController::class, "homepage" ]);
+Route::get ("/about", [ ExampleController::class, "aboutpage" ]);
