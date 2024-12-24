@@ -3,28 +3,39 @@
         <h2>
             <img class="avatar-small" src="{{ $user->avatar }}" />
             {{ $user->username }}
-            <form class="ml-2 d-inline" action="{{ route ('follow.store', [ 'user' => $user ])}}" method="POST">
+            <form class="ml-2 d-inline" action="{{ route('follow.store', ['user' => $user]) }}" method="POST">
                 @csrf
-                <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
+                @auth
+                    @if (!$following && auth ()->user ()->isNot ($user))
+                        <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
+                    @endif
+
+                    @if ($following)
+                        @method ("delete")
+                        <button class="btn btn-danger btn-sm">Unfollow <i class="fas fa-user-minus"></i></button>
+                    @endif
+                @endauth
                 <!-- <button class="btn btn-danger btn-sm">Stop Following <i class="fas fa-user-times"></i></button> -->
 
-                @if (auth ()->user ()->is ($user))
-                    <a href="{{ route ('manage_avatar', [ 'user' => $user->username ]) }}" class="btn btn-success btn-sm">Edit Profile</a>
+                @if (auth()->user()->is($user))
+                    <a href="{{ route('manage_avatar', ['user' => $user->username]) }}"
+                        class="btn btn-success btn-sm">Edit Profile</a>
                 @endif
             </form>
         </h2>
 
         <div class="profile-nav nav nav-tabs pt-2 mb-4">
-            <a href="#" class="profile-nav-link nav-item nav-link active">Posts: {{ $user->posts->count () }}</a>
+            <a href="#" class="profile-nav-link nav-item nav-link active">Posts: {{ $user->posts->count() }}</a>
             <a href="#" class="profile-nav-link nav-item nav-link">Followers: 3</a>
             <a href="#" class="profile-nav-link nav-item nav-link">Following: 2</a>
         </div>
 
         <div class="list-group">
             @foreach ($user->posts()->latest()->get() as $post)
-                <a href="{{ route ('posts.show', [ 'post' => $post->id ]) }}" class="list-group-item list-group-item-action">
-                    <img class="avatar-tiny" src="{{ auth ()->user ()->avatar }}" />
-                    <strong>{{ $post->title }}</strong> on {{ $post->created_at->format ("d/m/Y") }}
+                <a href="{{ route('posts.show', ['post' => $post->id]) }}"
+                    class="list-group-item list-group-item-action">
+                    <img class="avatar-tiny" src="{{ $user->avatar }}" />
+                    <strong>{{ $post->title }}</strong> on {{ $post->created_at->format('d/m/Y') }}
                 </a>
             @endforeach
         </div>

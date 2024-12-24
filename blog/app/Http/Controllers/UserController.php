@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Follow;
 
+use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -64,7 +65,17 @@ class UserController extends Controller
 
     public function show (User $user)
     {
-        return view ("profile", compact ("user"));
+        $following = 0;
+
+        if (auth ()->check ())
+        {
+            $following = Follow::where ([
+                ["user_id", "=", auth ()->user ()->id],
+                ["following_id", "=", $user->id]
+            ])->count () > 0;
+        }
+
+        return view ("profile", compact ("user", "following"));
     }
 
     public function manage_avatar ()

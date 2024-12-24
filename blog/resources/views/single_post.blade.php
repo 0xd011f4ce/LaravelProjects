@@ -20,7 +20,7 @@
 
         <p class="text-muted small mb-4">
             <a href="{{ route ('profile.show', $post->user) }}">
-                <img class="avatar-tiny" src="{{ auth ()->user ()->avatar }}" />
+                <img class="avatar-tiny" src="{{ $post->user->avatar }}" />
             </a>
             Posted by <a href="{{ route ('profile.show', $post->user) }}">{{ $post->user->username }}</a> on {{ $post->created_at->format('n/j/Y') }}
         </p>
