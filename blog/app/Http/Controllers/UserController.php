@@ -17,4 +17,34 @@ class UserController extends Controller
 
         User::create ($incoming_fields);
     }
+
+    public function login (Request $request)
+    {
+        $incoming_fields = $request->validate ([
+            "loginusername" => "required",
+            "loginpassword" => "required",
+        ]);
+
+        if (auth ()->attempt (["username" => $incoming_fields["loginusername"], "password" => $incoming_fields["loginpassword"]]))
+        {
+            $request->session ()->regenerate ();
+            return "Congrats!!!";
+        }
+        else
+        {
+            return "Sorry";
+        }
+    }
+
+    public function homepage ()
+    {
+        if (auth ()->check ())
+        {
+            return view ("feed");
+        }
+        else
+        {
+            return view ("home");
+        }
+    }
 }
