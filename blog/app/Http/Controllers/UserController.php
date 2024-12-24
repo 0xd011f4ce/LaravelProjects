@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Gd\Driver;
+
 class UserController extends Controller
 {
     public function register (Request $request)
@@ -70,7 +73,17 @@ class UserController extends Controller
 
     public function update_avatar (Request $request)
     {
-        $request->file ("avatar")->store ("avatars", "public");
+        $request->validate ([
+            "avatar" => "required|image|max:4096",
+        ]);
+
+        $user = auth ()->user ();
+        $fname = $user->id . "-" . uniqid () . ".jpg";
+
+        $manager = new ImageManager (new Driver ());
+        $image = $manager->read ($request->file ("avatar"));
+        $image_data = $image->cover (120, 120)->toJpeg ();
+        Storage::disk ("public")->put ("avatars/" . $fname, $image_data);
 
         return "hey";
     }
