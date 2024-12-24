@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout doctitle="Edit {{$post->title}}">
     <div class="container py-md-5 container--narrow">
         <form action="{{ route('posts.update', $post) }}" method="POST">
             @csrf
