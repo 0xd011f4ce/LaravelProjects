@@ -11,7 +11,7 @@ A simple blog made in Laravel. This blog features:
 
 ## Screenshots
 
-![Home Page](./img/loggedout.png)
-![Home Page](./img/home.png)
-![Profile Page](./img/profile.png)
-![Post](./img/post.png)
+![Home Page](./blog/img/loggedout.png)
+![Home Page](./blog/img/home.png)
+![Profile Page](./blog/img/profile.png)
+![Post](./blog/img/post.png)
