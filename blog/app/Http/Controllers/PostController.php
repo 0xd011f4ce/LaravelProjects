@@ -40,12 +40,28 @@ class PostController extends Controller
 
     public function delete (Post $post)
     {
-        if (auth ()->user ()->cannot ("delete", $post))
-        {
-            return "you cannot do that :c";
-        }
         $post->delete ();
 
         return redirect ()->route ("profile.show", auth ()->user ()->username)->with ("success", "Post deleted successfully");
+    }
+
+    public function edit (Post $post)
+    {
+        return view ("edit_post", compact ("post"));
+    }
+
+    public function update (Post $post, Request $request)
+    {
+        $incoming_fields = $request->validate ([
+            "title" => "required",
+            "body" => "required"
+        ]);
+
+        $incoming_fields ["title"] = strip_tags ($incoming_fields ["title"]);
+        $incoming_fields ["body"] = strip_tags ($incoming_fields ["body"]);
+
+        $post->update ($incoming_fields);
+
+        return redirect ()->route ("posts.show", $post)->with ("success", "Post updated successfully");
     }
 }
