@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         "title",
         "body",
@@ -16,5 +19,13 @@ class Post extends Model
     public function user ()
     {
         return $this->belongsTo (User::class, "user_id");
+    }
+
+    public function toSearchableArray ()
+    {
+        return [
+            "title" => $this->title,
+            "body" => $this->body
+        ];
     }
 }

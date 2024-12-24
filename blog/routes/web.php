@@ -22,6 +22,8 @@ Route::delete ("/post/{post}", [ PostController::class, "delete" ])->name ("post
 Route::get ("/post/{post}/edit", [ PostController::class, "edit" ])->name ("posts.edit")->middleware ("can:update,post");
 Route::put ("/post/{post}/edit", [ PostController::class, "update" ])->name ("posts.update")->middleware ("can:update,post");
 
+Route::get ("/search/{term}", [ PostController::class, "search" ])->name ("posts.search");
+
 // follow related routes
 Route::post ("/follow/{user:username}", [ FollowController::class, "store" ])->name ("follow.store")->middleware ("mbli");
 Route::delete ("/follow/{user:username}", [ FollowController::class, "destroy" ])->name ("follow.destroy")->middleware ("mbli");

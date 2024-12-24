@@ -64,4 +64,11 @@ class PostController extends Controller
 
         return redirect ()->route ("posts.show", $post)->with ("success", "Post updated successfully");
     }
+
+    public function search ($term)
+    {
+        $posts = Post::search ($term)->get ();
+        $posts->load ("user:id,username,avatar");
+        return $posts;
+    }
 }
