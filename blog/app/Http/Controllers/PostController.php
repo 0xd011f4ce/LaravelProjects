@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 use App\Models\Post;
 
 class PostController extends Controller
@@ -30,6 +32,9 @@ class PostController extends Controller
 
     public function show (Request $request, Post $post)
     {
+        $html = Str::markdown ($post->body);
+        $post ["html"] = $html;
+
         return view ("single_post", compact ("post"));
     }
 }

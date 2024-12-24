@@ -21,7 +21,7 @@
         </p>
 
         <div class="body-content">
-            {{ $post->body }}
+            {!! $post->html !!}
         </div>
     </div>
 
