@@ -37,4 +37,15 @@ class PostController extends Controller
 
         return view ("single_post", compact ("post"));
     }
+
+    public function delete (Post $post)
+    {
+        if (auth ()->user ()->cannot ("delete", $post))
+        {
+            return "you cannot do that :c";
+        }
+        $post->delete ();
+
+        return redirect ()->route ("profile.show", auth ()->user ()->username)->with ("success", "Post deleted successfully");
+    }
 }
