@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 use Intervention\Image\ImageManager;
-use Intervention\Image\Gd\Driver;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class UserController extends Controller
 {
@@ -85,6 +86,16 @@ class UserController extends Controller
         $image_data = $image->cover (120, 120)->toJpeg ();
         Storage::disk ("public")->put ("avatars/" . $fname, $image_data);
 
-        return "hey";
+        $old_avatar = $user->avatar;
+
+        $user->avatar = $fname;
+        $user->save ();
+
+        if ($old_avatar != "/fallback-avatar.jpg")
+        {
+            Storage::disk ("public")->delete (str_replace ("/storage/", "", $old_avatar));
+        }
+
+        return back ()->with ("success", "lookin hella fresh bro");
     }
 }
