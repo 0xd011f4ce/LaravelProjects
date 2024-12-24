@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 // User related routes
 Route::get ('/', [ UserController::class, "homepage" ])->name ("home");
@@ -20,6 +21,10 @@ Route::get ("/post/{post}", [ PostController::class, "show" ])->name ("posts.sho
 Route::delete ("/post/{post}", [ PostController::class, "delete" ])->name ("posts.delete")->middleware ("can:delete,post");
 Route::get ("/post/{post}/edit", [ PostController::class, "edit" ])->name ("posts.edit")->middleware ("can:update,post");
 Route::put ("/post/{post}/edit", [ PostController::class, "update" ])->name ("posts.update")->middleware ("can:update,post");
+
+// follow related routes
+Route::post ("/follow/{user:username}", [ FollowController::class, "store" ])->name ("follow.store")->middleware ("mbli");
+Route::delete ("/follow/{user:username}", [ FollowController::class, "destroy" ])->name ("follow.destroy")->middleware ("mbli");
 
 // Profile related routes
 Route::get ("/profile/{user:username}", [ UserController::class, "show" ])->name ("profile.show");
