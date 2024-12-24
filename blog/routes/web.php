@@ -14,3 +14,4 @@ Route::post ("/logout", [ UserController::class, "logout" ])->name ("logout");
 // Blog related routes
 Route::get ("/post/create", [ PostController::class, "create" ])->name ("posts.create");
 Route::post ("/post/create", [ PostController::class, "store" ]);
+Route::get ("/post/{post}", [ PostController::class, "show" ])->name ("posts.show");
