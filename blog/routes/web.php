@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Events\ChatMessage;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowController;
@@ -32,6 +34,26 @@ Route::delete ("/follow/{user:username}", [ FollowController::class, "destroy" ]
 Route::get ("/profile/{user:username}", [ UserController::class, "show" ])->name ("profile.show");
 Route::get ("/profile/{user:username}/followers", [ UserController::class, "followers" ])->name ("profile.followers");
 Route::get ("/profile/{user:username}/following", [ UserController::class, "following" ])->name ("profile.following");
+
+// chat routes
+Route::post ("/send-chat-message", function (Request $request) {
+    $fields = $request->validate ([
+        "message" => "required",
+    ]);
+
+    if (!trim (strip_tags ($fields["message"])))
+    {
+        return response ()->noContent ();
+    }
+
+    broadcast (new ChatMessage ([
+        "username" => auth ()->user ()->username,
+        "message" => strip_tags ($fields["message"]),
+        "avatar" => auth ()->user ()->avatar
+    ]))->toOthers ();
+
+    return response ()->noContent ();
+})->middleware ("mbli");
 
 Route::get ("/admin", function () {
     return "so you're cool dwag";
