@@ -72,7 +72,7 @@ class UserController extends Controller
     {
         if (auth ()->check ())
         {
-            return view ("feed");
+            return view ("feed", ["posts" => auth ()->user ()->feed_posts ()->latest ()->get () ]);
         }
         else
         {
