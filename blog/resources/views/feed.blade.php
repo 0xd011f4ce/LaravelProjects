@@ -4,12 +4,15 @@
             <h2 class="text-center">The Latest From Those You Follow</h2>
 
             @foreach ($posts as $post)
-                <a href="{{ route('posts.show', ['post' => $post]) }}"
-                    class="list-group-item list-group-item-action">
+                <a href="{{ route('posts.show', ['post' => $post]) }}" class="list-group-item list-group-item-action">
                     <img class="avatar-tiny" src="{{ $post->user->avatar }}" />
                     <strong>{{ $post->title }}</strong> on {{ $post->created_at->format('d/m/Y') }}
                 </a>
             @endforeach
+
+            <div class="mt-4">
+                {{ $posts->links() }}
+            </div>
         @else
             <div class="text-center">
                 <h2>Hello <strong>{{ auth()->user()->username }}</strong>, your feed is empty.</h2>
