@@ -15,3 +15,6 @@ Route::post ("/logout", [ UserController::class, "logout" ])->name ("logout")->m
 Route::get ("/post/create", [ PostController::class, "create" ])->name ("posts.create")->middleware ("mbli");
 Route::post ("/post/create", [ PostController::class, "store" ])->middleware ("mbli");
 Route::get ("/post/{post}", [ PostController::class, "show" ])->name ("posts.show");
+
+// Profile related routes
+Route::get ("/profile/{user:username}", [ UserController::class, "show" ])->name ("profile.show");

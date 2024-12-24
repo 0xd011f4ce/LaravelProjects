@@ -57,4 +57,9 @@ class UserController extends Controller
             return view ("home");
         }
     }
+
+    public function show (User $user)
+    {
+        return view ("profile", compact ("user"));
+    }
 }
