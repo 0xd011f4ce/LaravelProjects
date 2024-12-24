@@ -21,3 +21,7 @@ Route::put ("/post/{post}/edit", [ PostController::class, "update" ])->name ("po
 
 // Profile related routes
 Route::get ("/profile/{user:username}", [ UserController::class, "show" ])->name ("profile.show");
+
+Route::get ("/admin", function () {
+    return "so you're cool dwag";
+})->middleware ("can:visit_admin_pages");
