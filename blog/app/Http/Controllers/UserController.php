@@ -62,4 +62,16 @@ class UserController extends Controller
     {
         return view ("profile", compact ("user"));
     }
+
+    public function manage_avatar ()
+    {
+        return view ("avatar-form");
+    }
+
+    public function update_avatar (Request $request)
+    {
+        $request->file ("avatar")->store ("avatars", "public");
+
+        return "hey";
+    }
 }

@@ -10,6 +10,8 @@ Route::get ('/', [ UserController::class, "homepage" ])->name ("home");
 Route::post ("/register", [ UserController::class, "register" ])->name ("register")->middleware ("guest");
 Route::post ("/login", [ UserController::class, "login" ])->name ("login")->middleware ("guest");
 Route::post ("/logout", [ UserController::class, "logout" ])->name ("logout")->middleware ("auth");
+Route::get ("/manage-avatar", [ UserController::class, "manage_avatar" ])->name ("manage_avatar")->middleware ("auth");
+Route::post ("/manage-avatar", [ UserController::class, "update_avatar" ])->middleware ("auth");
 
 // Blog related routes
 Route::get ("/post/create", [ PostController::class, "create" ])->name ("posts.create")->middleware ("mbli");
