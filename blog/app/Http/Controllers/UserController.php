@@ -40,7 +40,7 @@ class UserController extends Controller
         $user = User::create ($incoming_fields);
         auth ()->login ($user);
 
-        return redirect ()->route ("login")->with ("success", "You have succesfully registered!");
+        return redirect ()->route ("home")->with ("success", "You have succesfully registered!");
     }
 
     public function login (Request $request)

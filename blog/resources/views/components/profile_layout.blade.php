@@ -26,8 +26,8 @@
 
         <div class="profile-nav nav nav-tabs pt-2 mb-4">
             <a href="{{ route ('profile.show', [ 'user' => $user ]) }}" class="profile-nav-link nav-item nav-link {{ Request::segment (3) == '' ? 'active' : '' }}">Posts: {{ $user->posts->count() }}</a>
-            <a href="{{ route ('profile.followers', [ 'user' => $user ]) }}" class="profile-nav-link nav-item nav-link {{ Request::segment (3) == 'followers' ? 'active' : '' }}">Followers: 3</a>
-            <a href="{{ route ('profile.following', [ 'user' => $user ]) }}" class="profile-nav-link nav-item nav-link {{ Request::segment (3) == 'following' ? 'active' : '' }}">Following: 2</a>
+            <a href="{{ route ('profile.followers', [ 'user' => $user ]) }}" class="profile-nav-link nav-item nav-link {{ Request::segment (3) == 'followers' ? 'active' : '' }}">Followers: {{ $user->followers->count () }}</a>
+            <a href="{{ route ('profile.following', [ 'user' => $user ]) }}" class="profile-nav-link nav-item nav-link {{ Request::segment (3) == 'following' ? 'active' : '' }}">Following: {{ $user->following->count () }}</a>
         </div>
 
         <div class="profile-slot-content">

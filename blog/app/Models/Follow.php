@@ -11,4 +11,14 @@ class Follow extends Model
         "user_id",
         "following_id"
     ];
+
+    public function source ()
+    {
+        return $this->belongsTo (User::class, "user_id");
+    }
+
+    public function target ()
+    {
+        return $this->belongsTo (User::class, "following_id");
+    }
 }
