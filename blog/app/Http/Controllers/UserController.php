@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Follow;
 
 use Illuminate\Http\Request;
+use App\Events\OurExampleEvent;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -53,6 +54,7 @@ class UserController extends Controller
         if (auth ()->attempt (["username" => $incoming_fields["loginusername"], "password" => $incoming_fields["loginpassword"]]))
         {
             $request->session ()->regenerate ();
+            event (new OurExampleEvent (['username' => auth ()->user ()->username, 'action' => 'logout']));
             return redirect ()->route ("home")->with ("success", "You have succesfully logged in!");
         }
         else
@@ -63,6 +65,7 @@ class UserController extends Controller
 
     public function logout ()
     {
+        event (new OurExampleEvent (['username' => auth ()->user ()->username, 'action' => 'logout']));
         auth ()->logout ();
 
         return redirect ()->route ("home")->with ("success", "You have succesfully logged out!");
