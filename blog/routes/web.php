@@ -28,6 +28,8 @@ Route::delete ("/follow/{user:username}", [ FollowController::class, "destroy" ]
 
 // Profile related routes
 Route::get ("/profile/{user:username}", [ UserController::class, "show" ])->name ("profile.show");
+Route::get ("/profile/{user:username}/followers", [ UserController::class, "followers" ])->name ("profile.followers");
+Route::get ("/profile/{user:username}/following", [ UserController::class, "following" ])->name ("profile.following");
 
 Route::get ("/admin", function () {
     return "so you're cool dwag";

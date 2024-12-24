@@ -12,6 +12,23 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class UserController extends Controller
 {
+    private function get_shared_data (User $user)
+    {
+        $following = 0;
+
+        if (auth ()->check ())
+        {
+            $following = Follow::where ([
+                ["user_id", "=", auth ()->user ()->id],
+                ["following_id", "=", $user->id]
+            ])->count () > 0;
+        }
+
+        return [
+            "following" => $following
+        ];
+    }
+
     public function register (Request $request)
     {
         $incoming_fields = $request->validate ([
@@ -65,15 +82,7 @@ class UserController extends Controller
 
     public function show (User $user)
     {
-        $following = 0;
-
-        if (auth ()->check ())
-        {
-            $following = Follow::where ([
-                ["user_id", "=", auth ()->user ()->id],
-                ["following_id", "=", $user->id]
-            ])->count () > 0;
-        }
+        $following = $this->get_shared_data ($user) ["following"];
 
         return view ("profile", compact ("user", "following"));
     }
@@ -108,5 +117,19 @@ class UserController extends Controller
         }
 
         return back ()->with ("success", "lookin hella fresh bro");
+    }
+
+    public function following (User $user)
+    {
+        $following = $this->get_shared_data ($user) ["following"];
+
+        return view ("profile_following", compact ("user", "following"));
+    }
+
+    public function followers (User $user)
+    {
+        $following = $this->get_shared_data ($user) ["following"];
+
+        return view ("profile_followers", compact ("user", "following"));
     }
 }
